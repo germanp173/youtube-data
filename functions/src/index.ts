@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
+import * as rp from "request-promise";
 import * as cheerio from "cheerio";
-import axios from "axios";
 
 export const GetViews = functions.https.onRequest((request, response) => {
   // Ensure urls array is provided
@@ -15,10 +15,15 @@ export const GetViews = functions.https.onRequest((request, response) => {
   const promises = request.body.urls.map(
     (url: string) =>
       new Promise((resolve, reject) => {
-        axios
-          .get(url)
-          .then(res => {
-            const $ = cheerio.load(res.data);
+        const options = {
+          uri: url,
+          transform: (body: string) => {
+            return cheerio.load(body);
+          }
+        };
+
+        rp(options)
+          .then($ => {
             const views = $(".watch-view-count")[0].children[0].data || "-999";
             resolve({
               url,
