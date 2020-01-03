@@ -24,9 +24,9 @@ export const getViews = async (
   // Returns all views after all promises are resolved.
   Promise.all(promises)
     .then(videoData => {
-      const map: ReturnHashMap = {};
-      videoData.forEach(video => (map[video.url] = video.views));
-      response.send(map);
+      const returnHash: ReturnHashMap = {};
+      videoData.forEach(video => (returnHash[video.url] = video.views));
+      response.send(returnHash);
     })
     .catch(err => {
       response.statusCode = 500;
