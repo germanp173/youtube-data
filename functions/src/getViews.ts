@@ -1,6 +1,10 @@
 import * as functions from "firebase-functions";
 import { getVideoViews } from "./utils";
 
+interface ReturnHashMap {
+  [url: string]: number;
+}
+
 export const getViews = async (
   request: functions.https.Request,
   response: functions.Response
@@ -19,7 +23,11 @@ export const getViews = async (
 
   // Returns all views after all promises are resolved.
   Promise.all(promises)
-    .then(views => response.send(views))
+    .then(videoData => {
+      const map: ReturnHashMap = {};
+      videoData.forEach(video => (map[video.url] = video.views));
+      response.send(map);
+    })
     .catch(err => {
       response.statusCode = 500;
       response.send(err);
