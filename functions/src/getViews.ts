@@ -14,6 +14,7 @@ export const getViews = async (
   if (!urls && Array.isArray(urls)) {
     response.statusCode = 400;
     response.send("No URLs array provided");
+    return;
   }
 
   // Create array of promises.
