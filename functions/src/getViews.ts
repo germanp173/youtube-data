@@ -43,6 +43,6 @@ export const getViews = async (
   } catch (error) {
     console.error(error);
     response.statusCode = 500;
-    response.send(error);
+    response.send("ERROR: " + error);
   }
 };
