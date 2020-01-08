@@ -17,7 +17,7 @@ export const getVideoViews = (url: string) =>
 
     rp(options)
       .then(($: any) => {
-        const views = $(".watch-view-count")[0]?.children[0]?.data || "-999";
+        const views = $(".watch-view-count")[0]?.children[0]?.data || "-999999";
         resolve({
           url,
           views: parseInt(views.replace(/,/g, "")) // Remove commas from view count and parse it
