@@ -41,6 +41,7 @@ export const getViews = async (
     response.statusCode = 200;
     response.send(returnHash);
   } catch (error) {
+    console.log("ERROR: ", error);
     response.statusCode = 500;
     response.send(error);
   }
