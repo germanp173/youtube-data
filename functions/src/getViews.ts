@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import { getVideoViews } from "./utils";
+import { getVideoViews, VideoViews } from "./utils";
 
 interface ReturnHashMap {
   [url: string]: number;
@@ -9,7 +9,6 @@ export const getViews = async (
   request: functions.https.Request,
   response: functions.Response
 ) => {
-
   console.log("Starting here!");
 
   // Ensure urls array is provided
@@ -33,7 +32,12 @@ export const getViews = async (
   // Returns all views after all promises are resolved.
   try {
     console.log("Invoking all promises");
-    const videoData = await Promise.all(promises);
+    const videoData: VideoViews[] = [];
+    for (const promise of promises) {
+      const data = await Promise.resolve(promise);
+      videoData.push(data);
+      await new Promise(resolve => setTimeout(() => resolve(), 2000));
+    }
     console.log("Done with all promises");
     const returnHash: ReturnHashMap = {};
 

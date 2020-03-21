@@ -1,7 +1,7 @@
 import * as rp from "request-promise";
 import * as cheerio from "cheerio";
 
-interface VideoViews {
+export interface VideoViews {
   url: string;
   views: number;
 }
